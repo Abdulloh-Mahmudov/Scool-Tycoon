@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int _finances = 0;
+    public int _finances = 0;
     [SerializeField] private float _speed = 5f;
     [SerializeField] private SelectionManager _sManager;
     [SerializeField] private UIManager _uiManager;
@@ -18,7 +19,12 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
-        _uiManager.FinancesValue(_finances);
+            _uiManager.FinancesValue(_finances);
+        
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Input.GetMouseButtonDown(0))
@@ -29,8 +35,14 @@ public class Player : MonoBehaviour
                 {
                     SelectionManager.Instance.SelectObject(hit.transform.gameObject);
                 }
+                else
+                {
+                    SelectionManager.Instance.SelectObject(null);
+                }
             }
         }
+
+
     }
 
     public void Movement()
@@ -45,4 +57,6 @@ public class Player : MonoBehaviour
         _finances += earnings;
         
     }
+
+
 }

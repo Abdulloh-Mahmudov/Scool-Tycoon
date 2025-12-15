@@ -16,8 +16,15 @@ public class SelectionManager : MonoBehaviour
 
     public void SelectObject(GameObject obj)
     {
-        SelectedObject = obj;
-        Debug.Log("Selected: " + obj.name);
+        if (obj != null)
+        {
+            SelectedObject = obj;
+            Debug.Log("Selected: " + obj.name);
+        }
+        else
+        {
+            SelectedObject = null;
+        }
     }
 
     public void UpgradeButton()
