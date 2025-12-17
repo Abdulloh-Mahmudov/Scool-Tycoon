@@ -8,9 +8,12 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject _platform;
     [SerializeField] private GameObject _buildingModel;
     [SerializeField] private GameObject _buildingUpgrade;
+    [SerializeField] private GameObject _buildingFinalUpgrade;
     [SerializeField] private Transform _buildingLocation;
     [SerializeField] private GameObject _currentBuilding;
     [SerializeField] private bool _isMainBuilding;
+    private int _buildingLevel = 1;
+    private bool _isUpgraded;
     private Player _player;
     private UIManager _uiManager;
     private float _coolDown;
@@ -22,6 +25,7 @@ public class Building : MonoBehaviour
         _coolDown = Time.time + _earnRate;
         _player = GameObject.Find("Player").GetComponent<Player>();
         GivePeople();
+        _isUpgraded = false;
     }
 
     // Update is called once per frame
@@ -57,11 +61,24 @@ public class Building : MonoBehaviour
     {
         if (_player._finances >= _currentBuilding.GetComponent<Building_Stats>().upgrade)
         {
-            if (_buildingUpgrade != null)
+            if ( _isUpgraded == false)
             {
+                _isUpgraded = true;
                 _player._finances -= _currentBuilding.GetComponent<Building_Stats>().upgrade;
                 Destroy(_currentBuilding);
                 _currentBuilding = Instantiate(_buildingUpgrade, _buildingLocation.position, _buildingLocation.rotation);
+                _currentBuilding.transform.parent = this.transform;
+                GivePeople();
+                _buildingLevel++;
+            }
+
+            else if(_isMainBuilding == true && _buildingLevel == 2)
+            {
+                Debug.Log("FinalBuilding");
+                _buildingLevel++;
+                _player._finances -= _currentBuilding.GetComponent<Building_Stats>().upgrade;
+                Destroy(_currentBuilding);
+                _currentBuilding = Instantiate(_buildingFinalUpgrade, _buildingLocation.position, _buildingLocation.rotation);
                 _currentBuilding.transform.parent = this.transform;
                 GivePeople();
             }
