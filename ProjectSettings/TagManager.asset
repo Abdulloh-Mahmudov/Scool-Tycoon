@@ -9,6 +9,7 @@ TagManager:
   - Floor
   - Environment
   - Student
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
