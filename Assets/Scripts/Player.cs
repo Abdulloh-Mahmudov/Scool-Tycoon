@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 #endif
 
         Boundaries();
-        //if (IsTouchOverUI()) return;
+        if (IsTouchOverUI()) return;
         _uiManager.FinancesValue(_finances);
         _uiManager.GetPeopleCount(_peopleCurrent, _peopleMax);
 
@@ -94,9 +94,9 @@ public class Player : MonoBehaviour
 
                 Vector3 move = new Vector3
                     (
-                    -delta.x * _speed * Time.deltaTime,
+                    -delta.x * _speed / 5 * Time.deltaTime,
                     0,
-                    -delta.y * _speed * Time.deltaTime
+                    -delta.y * _speed / 5 * Time.deltaTime
                     );
 
                 transform.Translate(move, Space.World);
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
 
             float delta = currDist - prevDist;
 
-            Camera.main.fieldOfView -= delta * _speed;
+            Camera.main.fieldOfView -= delta * _speed / 5 * Time.deltaTime;
             Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, 20f, 60f);
         }
     }
@@ -188,5 +188,15 @@ public class Player : MonoBehaviour
     public void GetPeopleMax(int max)
     {
         _peopleMax = max;
+    }
+
+    public bool GameEnded()
+    {
+        bool gameEnd = false;
+        if(_peopleCurrent >= 60)
+        {
+            gameEnd = true;
+        }
+        return gameEnd;
     }
     }

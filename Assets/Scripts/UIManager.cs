@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     private GameObject _selected;
     private int _price;
     [SerializeField] private Text _time;
+    [SerializeField] GameObject _win;
+    [SerializeField] Player _player;
     private float _timer;
     private int _timeSeconds;
     private int _timeMinutes;
@@ -39,8 +41,16 @@ public class UIManager : MonoBehaviour
         _upgrade.onClick.RemoveAllListeners();
         TimeCounter();
         _time.text = _timeMinutes + " : " + _timeSeconds;
+
         _upgradeText.text = "Upgrade cost:" + _price;
+          
         _peopleCounter.text = _peopleCurrentCount + "/" + _peopleMaxCount;
+
+
+        if(_player.GameEnded() == true)
+        {
+            WinCondition();
+        }
     }
 
     public void SliderValue(float percentage)
@@ -97,5 +107,11 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
 
         _upgrade.gameObject.SetActive(true);
+    }
+
+    public void WinCondition()
+    {
+        _exitToMenu.gameObject.SetActive(true);
+        _win.SetActive(true);
     }
 }

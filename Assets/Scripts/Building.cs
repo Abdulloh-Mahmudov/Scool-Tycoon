@@ -115,4 +115,9 @@ public class Building : MonoBehaviour
         _timer = _earnRate - (_coolDown - Time.time);
         _uiManager.SliderValue(_timer);
     }
+
+    public int BuildingPrice()
+    {
+        return _currentBuilding.GetComponent<Building_Stats>().upgrade;
+    }
 }
