@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _zBoundaryNegative;
     [SerializeField] private int _peopleMax;
     [SerializeField] private int _peopleCurrent;
+    Vector2 lastTouchPos;
 
 
     // Start is called before the first frame update
@@ -28,8 +29,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        MobileMovement();
+        MobileZoom();
+#else
         Movement();
+#endif
+
         Boundaries();
+        //if (IsTouchOverUI()) return;
         _uiManager.FinancesValue(_finances);
         _uiManager.GetPeopleCount(_peopleCurrent, _peopleMax);
 
@@ -72,6 +80,52 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         transform.Translate(new Vector3(vertical, 0, -horizontal) * _speed * Time.deltaTime, Space.Self);
+    }
+
+    public void MobileMovement()
+    {
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Moved)
+            {
+                Vector2 delta = touch.deltaPosition;
+
+                Vector3 move = new Vector3
+                    (
+                    -delta.x * _speed * Time.deltaTime,
+                    0,
+                    -delta.y * _speed * Time.deltaTime
+                    );
+
+                transform.Translate(move, Space.World);
+            }
+        }
+    }
+
+    public void MobileZoom()
+    {
+        if (Input.touchCount == 2)
+        {
+            Touch t0 = Input.GetTouch(0);
+            Touch t1 = Input.GetTouch(1);
+
+            float prevDist = (t0.position - t0.deltaPosition -
+                              (t1.position - t1.deltaPosition)).magnitude;
+
+            float currDist = (t0.position - t1.position).magnitude;
+
+            float delta = currDist - prevDist;
+
+            Camera.main.fieldOfView -= delta * _speed;
+            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, 20f, 60f);
+        }
+    }
+
+    bool IsTouchOverUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
 
     public void Finances(int earnings)

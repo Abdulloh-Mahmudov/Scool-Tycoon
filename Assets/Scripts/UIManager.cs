@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Button _upgrade;
     [SerializeField] Text _upgradeText;
     [SerializeField] Text _peopleCounter;
+    [SerializeField] Button _menu;
+    [SerializeField] Button _resume;
+    [SerializeField] Button _exitToMenu;
     private GameObject _selected;
     private int _price;
     [SerializeField] private Text _time;
@@ -74,5 +77,25 @@ public class UIManager : MonoBehaviour
     {
         _peopleCurrentCount = current;
         _peopleMaxCount = max;
+    }
+
+    public void Menu()
+    {
+        _resume.gameObject.SetActive(true);
+        _exitToMenu.gameObject.SetActive(true);
+
+        Time.timeScale = 0;
+
+        _upgrade.gameObject.SetActive(false);
+    }
+
+    public void Resume()
+    {
+        _resume.gameObject.SetActive(false);
+        _exitToMenu.gameObject.SetActive(false);
+
+        Time.timeScale = 1;
+
+        _upgrade.gameObject.SetActive(true);
     }
 }
