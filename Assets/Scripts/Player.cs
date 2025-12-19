@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 #endif
 
         Boundaries();
-        if (IsTouchOverUI()) return;
+        //if (IsTouchOverUI()) return;
         _uiManager.FinancesValue(_finances);
         _uiManager.GetPeopleCount(_peopleCurrent, _peopleMax);
 
