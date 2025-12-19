@@ -810,10 +810,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f566e1c8022553349b56538ded5bc6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  income: 30
-  upgrade: 100
+  income: 50
+  upgrade: 150
   people: 0
-  maxpeople: 30
+  maxpeople: 40
 --- !u!1 &1773609173442829089
 GameObject:
   m_ObjectHideFlags: 0

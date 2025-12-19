@@ -113,5 +113,7 @@ public class UIManager : MonoBehaviour
     {
         _exitToMenu.gameObject.SetActive(true);
         _win.SetActive(true);
+
+        _upgrade.gameObject.SetActive(false);
     }
 }

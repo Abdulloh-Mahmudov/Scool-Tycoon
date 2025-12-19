@@ -111,8 +111,7 @@ public class Player : MonoBehaviour
             Touch t0 = Input.GetTouch(0);
             Touch t1 = Input.GetTouch(1);
 
-            float prevDist = (t0.position - t0.deltaPosition -
-                              (t1.position - t1.deltaPosition)).magnitude;
+            float prevDist = (t0.position - t0.deltaPosition - (t1.position - t1.deltaPosition)).magnitude;
 
             float currDist = (t0.position - t1.position).magnitude;
 
